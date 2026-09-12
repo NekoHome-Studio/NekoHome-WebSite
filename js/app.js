@@ -97,9 +97,11 @@ function applyConfig(cfg) {
   if (cfg.icp) $("#icp-link").textContent = cfg.icp;
 
   // 背景图路径与遮罩强度（首页 / 其它页分开可调，0~1）
+  // 注意：Chromium 按「使用变量的样式表」解析变量内相对 url()，必须先转绝对路径
   const rootEl = document.documentElement;
   if (typeof cfg.background === "string" && cfg.background) {
-    rootEl.style.setProperty("--bg-image", `url("${cfg.background}")`);
+    const abs = new URL(cfg.background, document.baseURI).href;
+    rootEl.style.setProperty("--bg-image", `url("${abs}")`);
   }
   if (cfg.mask) {
     if (typeof cfg.mask.hero === "number") rootEl.style.setProperty("--mask-hero-op", String(cfg.mask.hero));
