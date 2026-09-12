@@ -454,28 +454,60 @@ button { font-family: inherit; }
 .repo-error .btn-ghost { align-self: flex-start; margin-top: 6px; }
 
 /* ---------- 第 4 页 · 加入我们 ---------- */
-.qq-card {
-  margin: 40px auto 0;
-  max-width: 560px;
+.join-grid { margin-top: 40px; }
+
+.join-card {
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 22px;
   text-align: center;
+  gap: 10px;
+  padding: 28px 22px;
   background: var(--card);
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  padding: clamp(26px, 3vw, 38px);
+  transition: transform .35s var(--ease), border-color .35s ease, background .35s ease, box-shadow .35s ease;
+}
+.join-card:hover {
+  transform: translateY(-4px);
+  background: var(--card-hover);
+  border-color: rgba(74, 168, 255, .5);
+  box-shadow: 0 18px 40px -18px var(--shadow);
+}
+.join-icon {
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  border-radius: 16px;
+  color: #fff;
+  background: var(--grad);
+  box-shadow: 0 10px 24px -10px rgba(74, 168, 255, .55);
+}
+.join-icon svg { width: 24px; height: 24px; }
+.join-card h3 { font-size: 17px; font-weight: 700; margin: 4px 0 0; }
+.join-card p { color: var(--muted); font-size: 14px; margin: 0; }
+
+/* QQ 群横向大卡片 */
+.qq-card {
+  margin: 28px auto 0;
+  max-width: 780px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 18px 28px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: clamp(22px, 3vw, 30px) clamp(24px, 3.4vw, 40px);
   box-shadow: 0 24px 60px -30px var(--shadow);
   transition: background .5s ease, border-color .5s ease;
 }
-.qq-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  flex-wrap: wrap;
-}
+.qq-info { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.qq-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 .qq-label { color: var(--muted); font-size: 14px; }
 .qq-number {
   font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
@@ -488,7 +520,7 @@ button { font-family: inherit; }
   padding: 8px 20px;
   border-radius: var(--radius-sm);
 }
-.qq-tip { color: var(--faint); font-size: 13px; margin: 0; }
+.qq-tip { width: 100%; color: var(--faint); font-size: 13px; text-align: center; margin: 0; }
 
 /* ---------- 按钮（圆润胶囊） ---------- */
 .btn-primary {
@@ -602,6 +634,8 @@ button { font-family: inherit; }
 @media (max-width: 767.98px) {
   .footer-icp { text-align: left; }
   .footer-inner { flex-direction: column; align-items: flex-start; }
+  .qq-card { flex-direction: column; text-align: center; }
+  .qq-info, .qq-actions { justify-content: center; }
 }
 @media (max-width: 575.98px) {
   .nav-link { padding: 8px 12px; font-size: 14px; }
