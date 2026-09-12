@@ -96,6 +96,12 @@ function applyConfig(cfg) {
   if (cfg.qqJoinUrl) $("#qq-join").href = cfg.qqJoinUrl;
   if (cfg.icp) $("#icp-link").textContent = cfg.icp;
 
+  // 图片路径（顶栏 / 页脚图标分离可配）
+  $$("[data-cfg-src]").forEach(el => {
+    const v = getPath(cfg, el.dataset.cfgSrc);
+    if (typeof v === "string") el.src = v;
+  });
+
   // 首页主标题字号（clamp 三段：最小值 / 视口比例 / 最大值）
   if (cfg.hero) {
     const h = cfg.hero;
