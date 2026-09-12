@@ -49,6 +49,7 @@ npx serve .
 | `background` | 首页固定背景图路径 |
 | `mask.hero` / `mask.panel` | 首页遮罩强度（0~1）/ 其它页面遮罩强度（0~1，即面板透明度） |
 | `topLogo` / `footerLogo` | 顶栏 / 页脚图标路径（分开可配） |
+| `aboutImage` | 关于页 4:3 形象图路径 |
 | `scroll.lerp` | 惯性系数（0~1，越小越"糯"，默认 0.1） |
 | `scroll.wheelMultiplier` | 滚轮速度倍率 |
 | `scroll.anchorDuration` | 导航锚点跳转动画时长（秒） |
