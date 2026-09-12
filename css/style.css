@@ -95,6 +95,10 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* 隐藏根滚动条但保留滚动能力（Firefox 用属性，Chromium/WebKit 用伪元素） */
+html { scrollbar-width: none; }
+html::-webkit-scrollbar { display: none; }
+
 a { color: inherit; text-decoration: none; }
 img { display: block; max-width: 100%; }
 ul { list-style: none; margin: 0; padding: 0; }
@@ -402,7 +406,7 @@ button { font-family: inherit; }
 .about-media img { width: 100%; height: 100%; object-fit: cover; }
 
 /* ---------- 第 3 页 · 产品（GitHub 仓库卡片） ---------- */
-.repo-grid { margin-top: 40px; }
+.repo-grid { margin-top: 40px; justify-content: center; }
 
 .repo-card {
   display: flex;
@@ -617,6 +621,9 @@ button { font-family: inherit; }
   font-size: 13px;
   text-align: right;
 }
+.footer-icp a {
+  align-self: flex-end; /* flex item 默认拉伸占满整行，收缩到文字实际宽度 */
+}
 .footer-icp a:hover { color: var(--muted); }
 
 /* ---------- Toast 提示 ---------- */
@@ -658,6 +665,7 @@ button { font-family: inherit; }
 }
 @media (max-width: 767.98px) {
   .footer-icp { text-align: left; }
+  .footer-icp a { align-self: flex-start; }
   .footer-inner { flex-direction: column; align-items: flex-start; }
   .qq-card { flex-direction: column; text-align: center; }
   .qq-info, .qq-actions { justify-content: center; }
