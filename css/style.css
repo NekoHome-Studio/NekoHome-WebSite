@@ -669,6 +669,20 @@ button { font-family: inherit; }
   .footer-inner { flex-direction: column; align-items: flex-start; }
   .qq-card { flex-direction: column; text-align: center; }
   .qq-info, .qq-actions { justify-content: center; }
+
+  /* 顶栏导航：横滑标签栏，激活项居中，两侧渐隐（渐隐带宽按比例随屏宽自适应） */
+  .topbar { gap: 10px; }
+  .topbar-right { flex: 1; min-width: 0; gap: 10px; }
+  .nav {
+    flex: 1;
+    min-width: 0;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    scrollbar-width: none;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 32%, #000 68%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 32%, #000 68%, transparent);
+  }
+  .nav::-webkit-scrollbar { display: none; }
 }
 @media (max-width: 575.98px) {
   .nav-link { padding: 8px 12px; font-size: 14px; }
