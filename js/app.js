@@ -96,6 +96,16 @@ function applyConfig(cfg) {
   if (cfg.qqJoinUrl) $("#qq-join").href = cfg.qqJoinUrl;
   if (cfg.icp) $("#icp-link").textContent = cfg.icp;
 
+  // 背景图路径与遮罩强度（首页 / 其它页分开可调，0~1）
+  const rootEl = document.documentElement;
+  if (typeof cfg.background === "string" && cfg.background) {
+    rootEl.style.setProperty("--bg-image", `url("${cfg.background}")`);
+  }
+  if (cfg.mask) {
+    if (typeof cfg.mask.hero === "number") rootEl.style.setProperty("--mask-hero-op", String(cfg.mask.hero));
+    if (typeof cfg.mask.panel === "number") rootEl.style.setProperty("--panel-op", String(cfg.mask.panel));
+  }
+
   // 图片路径（顶栏 / 页脚图标分离可配）
   $$("[data-cfg-src]").forEach(el => {
     const v = getPath(cfg, el.dataset.cfgSrc);

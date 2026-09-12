@@ -46,6 +46,9 @@ npx serve .
 | `hero.titleMinPx` / `titleVw` / `titleMaxPx` | 首页主标题字号 clamp() 三段：最小值、随视口缩放比例、最大值 |
 | `copyright` | 版权文本模板，`{year}` 和 `{name}` 会自动替换为当前年份与工作室名 |
 | `qqGroup` / `qqJoinUrl` / `icp` | QQ 群号、加群链接、ICP 备案号 |
+| `background` | 首页固定背景图路径 |
+| `mask.hero` / `mask.panel` | 首页遮罩强度（0~1）/ 其它页面遮罩强度（0~1，即面板透明度） |
+| `topLogo` / `footerLogo` | 顶栏 / 页脚图标路径（分开可配） |
 | `scroll.lerp` | 惯性系数（0~1，越小越"糯"，默认 0.1） |
 | `scroll.wheelMultiplier` | 滚轮速度倍率 |
 | `scroll.anchorDuration` | 导航锚点跳转动画时长（秒） |
