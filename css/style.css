@@ -674,6 +674,12 @@ button { font-family: inherit; }
   .nav-link { padding: 8px 12px; font-size: 14px; }
   .brand-name { display: none; }
   .hero-eyebrow { letter-spacing: .3em; }
+  /* 滚动提示文字竖排，与竖向下落光点呼应 */
+  .scroll-hint > span:first-child {
+    writing-mode: vertical-lr;
+    letter-spacing: .35em;
+    text-indent: 0;
+  }
 }
 
 /* ---------- 降低动效偏好 ---------- */
