@@ -88,6 +88,21 @@ function applyConfig(cfg) {
   }
   if (cfg.qqJoinUrl) $("#qq-join").href = cfg.qqJoinUrl;
   if (cfg.icp) $("#icp-link").textContent = cfg.icp;
+
+  // 首页主标题字号（clamp 三段：最小值 / 视口比例 / 最大值）
+  if (cfg.hero) {
+    const h = cfg.hero;
+    const clamp = `clamp(${h.titleMinPx ?? 44}px, ${h.titleVw ?? 10}vw, ${h.titleMaxPx ?? 128}px)`;
+    document.documentElement.style.setProperty("--hero-title-size", clamp);
+  }
+
+  // 版权声明模板：{year} / {name} 占位符自动替换
+  if (typeof cfg.copyright === "string") {
+    const text = cfg.copyright
+      .split("{year}").join(String(new Date().getFullYear()))
+      .split("{name}").join(cfg.studioName || "");
+    $$('[data-cfg="copyright"]').forEach(el => (el.textContent = text));
+  }
 }
 
 /* ---------- 顶栏滑动指示器 & 当前页高亮 ---------- */
@@ -158,13 +173,24 @@ function initParallax() {
    - 停稳后轻微吸附到最近的整屏页面
    - 第 4 页「加入我们」与页脚不参与吸附
    - 降级：Lenis 未加载 / 用户偏好减少动效 → 原生平滑 + CSS 吸附 */
-function initSmoothScroll() {
+function initSmoothScroll(cfg) {
+  // 滚动手感参数：config.json 的 scroll 段优先，缺项用默认值兜底
+  const sc = Object.assign({
+    lerp: 0.1,             // 惯性系数（0~1，越小越"糯"）
+    wheelMultiplier: 1,    // 滚轮速度倍率
+    anchorDuration: 1.15,  // 导航锚点跳转时长（秒）
+    snapMaxDist: 0.5,      // 吸附触发距离（单位：视口高度）
+    snapDelay: 150,        // 停稳判定延迟（毫秒）
+    snapVelocity: 0.05,    // 吸附速度阈值
+    snapDuration: 0.9      // 吸附动画时长（秒）
+  }, (cfg && cfg.scroll) || {});
+
   if (reduceMotion || typeof Lenis === "undefined") {
     document.documentElement.classList.add("native-scroll");
     return;
   }
 
-  const lenis = new Lenis({ lerp: 0.1, wheelMultiplier: 1 });
+  const lenis = new Lenis({ lerp: sc.lerp, wheelMultiplier: sc.wheelMultiplier });
 
   function raf(time) {
     lenis.raf(time);
@@ -180,22 +206,21 @@ function initSmoothScroll() {
       const el = $(hash);
       if (!el) return;
       e.preventDefault();
-      lenis.scrollTo(el, { duration: 1.15, easing: t => 1 - Math.pow(1 - t, 4) });
+      lenis.scrollTo(el, { duration: sc.anchorDuration, easing: t => 1 - Math.pow(1 - t, 4) });
     });
   });
 
   // 吸附点：仅前三个整屏页面（首页/关于/产品）
   const snapTargets = ["#home", "#about", "#products"].map(s => $(s).offsetTop);
-  const SNAP_MAX_DIST = 0.5; // 距吸附点多近才吸（单位：视口高度）
   let lastVelocity = 0;
   let snapTimer = null;
 
   lenis.on("scroll", e => {
     lastVelocity = e.velocity;
     clearTimeout(snapTimer);
-    // 停稳 150ms 后判断是否需要吸附
+    // 停稳后判断是否需要吸附
     snapTimer = setTimeout(() => {
-      if (Math.abs(lastVelocity) > 0.05) return;
+      if (Math.abs(lastVelocity) > sc.snapVelocity) return;
       const y = window.scrollY;
       const vh = window.innerHeight;
       let nearest = null, dist = Infinity;
@@ -203,9 +228,9 @@ function initSmoothScroll() {
         const d = Math.abs(top - y);
         if (d < dist) { dist = d; nearest = top; }
       }
-      if (nearest == null || dist < 10 || dist > vh * SNAP_MAX_DIST) return;
-      lenis.scrollTo(nearest, { duration: 0.9, easing: t => 1 - Math.pow(1 - t, 3) });
-    }, 150);
+      if (nearest == null || dist < 10 || dist > vh * sc.snapMaxDist) return;
+      lenis.scrollTo(nearest, { duration: sc.snapDuration, easing: t => 1 - Math.pow(1 - t, 3) });
+    }, sc.snapDelay);
   });
 }
 
@@ -339,17 +364,18 @@ function initCopy() {
 
 /* ---------- 启动 ---------- */
 (async function init() {
-  $("#year").textContent = new Date().getFullYear();
   initTheme();
+
+  const cfg = await loadConfig();
+  applyConfig(cfg);
+
   initNav();
-  initSmoothScroll();
+  initSmoothScroll(cfg);
   initParallax();
   initReveal();
   initRepos();
   initCopy();
 
-  const cfg = await loadConfig();
-  applyConfig(cfg);
   // 文案填充后导航宽度可能变化，重新定位指示器
   moveIndicator($(".nav-link.is-active"));
 })();

@@ -32,10 +32,26 @@ npx serve .
 
 | 文件 | 内容 |
 | --- | --- |
-| `data/config.json` | 工作室名、标语、QQ 群号、加群链接、ICP 备案号、关于/加入文案与标签 |
+| `data/config.json` | 全部文案与参数：工作室信息、首页标题字号、版权模板、QQ/ICP、滚动手感 |
 | `data/repos.json` | GitHub 仓库链接数组（填 URL 即可，自动解析） |
 | `assets/logo.svg` | Logo 占位图（可替换） |
 | `assets/about.svg` | 关于页 4:3 占位图（可替换为照片/插画） |
+| `assets/background.webp` | 首页固定背景图（可替换） |
+
+### config.json 字段说明
+
+| 字段 | 说明 |
+| --- | --- |
+| `studioName` / `slogan` / `heroTags` | 工作室名、标语、首页眉标 |
+| `hero.titleMinPx` / `titleVw` / `titleMaxPx` | 首页主标题字号 clamp() 三段：最小值、随视口缩放比例、最大值 |
+| `copyright` | 版权文本模板，`{year}` 和 `{name}` 会自动替换为当前年份与工作室名 |
+| `qqGroup` / `qqJoinUrl` / `icp` | QQ 群号、加群链接、ICP 备案号 |
+| `scroll.lerp` | 惯性系数（0~1，越小越"糯"，默认 0.1） |
+| `scroll.wheelMultiplier` | 滚轮速度倍率 |
+| `scroll.anchorDuration` | 导航锚点跳转动画时长（秒） |
+| `scroll.snapMaxDist` | 吸附触发距离（视口高度的倍数，默认 0.5） |
+| `scroll.snapDelay` | 停稳判定延迟（毫秒） |
+| `scroll.snapVelocity` / `snapDuration` | 吸附速度阈值 / 吸附动画时长（秒） |
 
 ## 技术说明
 
