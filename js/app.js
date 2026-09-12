@@ -162,15 +162,6 @@ function setActive(id) {
   if (!link || link.classList.contains("is-active")) return;
   navLinks.forEach(l => l.classList.toggle("is-active", l === link));
   moveIndicator(link);
-  centerActiveNav();
-}
-
-/* 窄屏下让当前页导航按钮滚到可视区中央（两侧渐隐由 CSS mask 呈现） */
-function centerActiveNav() {
-  if (window.innerWidth > 767.98 || typeof nav.scrollTo !== "function") return;
-  const link = $(".nav-link.is-active");
-  if (!link) return;
-  nav.scrollTo({ left: link.offsetLeft - nav.clientWidth / 2 + link.offsetWidth / 2 });
 }
 
 function updateActive() {
@@ -183,7 +174,7 @@ function updateActive() {
 }
 
 function initNav() {
-  const reposition = () => { moveIndicator($(".nav-link.is-active")); centerActiveNav(); };
+  const reposition = () => moveIndicator($(".nav-link.is-active"));
   window.addEventListener("resize", reposition);
   window.addEventListener("load", reposition);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(reposition);
