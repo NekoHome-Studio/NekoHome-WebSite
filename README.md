@@ -63,6 +63,7 @@ npx serve .
 ## 目录结构
 
 ```
+├── LICENSE             # MIT 许可证
 ├── index.html          # 页面结构
 ├── css/style.css       # 全部样式（双主题变量）
 ├── js/app.js           # 全部逻辑
