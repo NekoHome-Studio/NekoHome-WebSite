@@ -5,12 +5,12 @@
       <stop offset="1" stop-color="#08101f"/>
     </linearGradient>
     <linearGradient id="acc" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#2f9dff"/>
-      <stop offset="1" stop-color="#6fd8ff"/>
+      <stop offset="0" stop-color="#4aa8ff"/>
+      <stop offset="1" stop-color="#8fdcff"/>
     </linearGradient>
     <radialGradient id="halo" cx=".5" cy=".42" r=".65">
-      <stop offset="0" stop-color="#2f9dff" stop-opacity=".28"/>
-      <stop offset="1" stop-color="#2f9dff" stop-opacity="0"/>
+      <stop offset="0" stop-color="#4aa8ff" stop-opacity=".28"/>
+      <stop offset="1" stop-color="#4aa8ff" stop-opacity="0"/>
     </radialGradient>
   </defs>
   <rect width="800" height="600" fill="url(#bg)"/>
