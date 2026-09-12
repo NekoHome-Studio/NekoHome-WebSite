@@ -150,15 +150,23 @@ button { font-family: inherit; }
   align-items: center;
   justify-content: space-between;
   padding: 0 clamp(20px, 5vw, 64px);
-  border-bottom: 1px solid transparent;
   animation: fadeIn .8s ease .15s both;
 }
-.topbar.scrolled {
+/* 毛玻璃背景由伪元素承载，opacity 过渡实现「透明 → 遮罩」丝滑变化
+  （backdrop-filter 本身不支持过渡，直接切换会很突兀） */
+.topbar::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
   background: var(--topbar-bg);
   -webkit-backdrop-filter: blur(16px) saturate(1.4);
   backdrop-filter: blur(16px) saturate(1.4);
-  border-bottom-color: var(--line);
+  border-bottom: 1px solid var(--line);
+  opacity: 0;
+  transition: opacity .45s var(--ease);
 }
+.topbar.scrolled::before { opacity: 1; }
 
 .brand {
   display: flex;
@@ -579,7 +587,7 @@ button { font-family: inherit; }
   gap: 28px;
 }
 .footer-brand { display: flex; align-items: center; gap: 14px; }
-.footer-logo { height: 52px; width: auto; border-radius: 14px; }
+.footer-logo { height: 68px; width: auto; border-radius: 16px; }
 .footer-name { font-size: clamp(20px, 2.4vw, 26px); font-weight: 800; letter-spacing: .04em; }
 .footer-nav { display: flex; gap: 26px; }
 .footer-nav a { color: var(--muted); font-size: 15px; transition: color .3s ease; }
