@@ -167,7 +167,7 @@ button { font-family: inherit; }
   font-weight: 700;
   letter-spacing: .02em;
 }
-.brand-logo { border-radius: 12px; }
+.brand-logo { height: 36px; width: auto; border-radius: 10px; }
 .brand-name { font-size: 17px; }
 
 .topbar-right { display: flex; align-items: center; gap: 14px; }
@@ -579,7 +579,7 @@ button { font-family: inherit; }
   gap: 28px;
 }
 .footer-brand { display: flex; align-items: center; gap: 14px; }
-.footer-logo { border-radius: 15px; }
+.footer-logo { height: 52px; width: auto; border-radius: 14px; }
 .footer-name { font-size: clamp(20px, 2.4vw, 26px); font-weight: 800; letter-spacing: .04em; }
 .footer-nav { display: flex; gap: 26px; }
 .footer-nav a { color: var(--muted); font-size: 15px; transition: color .3s ease; }
