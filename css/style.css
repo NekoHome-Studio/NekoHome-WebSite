@@ -669,17 +669,12 @@ button { font-family: inherit; }
   .footer-inner { flex-direction: column; align-items: flex-start; }
   .qq-card { flex-direction: column; text-align: center; }
   .qq-info, .qq-actions { justify-content: center; }
-}
-@media (max-width: 575.98px) {
+  /* 阶段 1：隐藏顶栏工作室名字，保留 Logo 图 + 横排导航 */
   .brand-name { display: none; }
   .hero-eyebrow { letter-spacing: .3em; }
-  /* 滚动提示文字竖排，与竖向下落光点呼应 */
-  .scroll-hint > span:first-child {
-    writing-mode: vertical-lr;
-    letter-spacing: .35em;
-    text-indent: 0;
-  }
-  /* 导航文字竖排（瘦高按钮，大幅压缩顶栏横向占用），指示器同步变为竖条 */
+}
+@media (max-width: 479.98px) {
+  /* 阶段 2：导航文字竖写（瘦高按钮，压缩横向占用），指示器同步变竖条 */
   .nav-link {
     writing-mode: vertical-lr;
     letter-spacing: .18em;
@@ -687,6 +682,12 @@ button { font-family: inherit; }
     font-size: 13px;
   }
   .nav-indicator { top: 4px; bottom: 4px; height: auto; transform: none; }
+  /* 滚动提示文字竖排，与竖向下落光点呼应 */
+  .scroll-hint > span:first-child {
+    writing-mode: vertical-lr;
+    letter-spacing: .35em;
+    text-indent: 0;
+  }
 }
 
 /* ---------- 降低动效偏好 ---------- */
