@@ -671,7 +671,6 @@ button { font-family: inherit; }
   .qq-info, .qq-actions { justify-content: center; }
 }
 @media (max-width: 575.98px) {
-  .nav-link { padding: 8px 12px; font-size: 14px; }
   .brand-name { display: none; }
   .hero-eyebrow { letter-spacing: .3em; }
   /* 滚动提示文字竖排，与竖向下落光点呼应 */
@@ -680,6 +679,14 @@ button { font-family: inherit; }
     letter-spacing: .35em;
     text-indent: 0;
   }
+  /* 导航文字竖排（瘦高按钮，大幅压缩顶栏横向占用），指示器同步变为竖条 */
+  .nav-link {
+    writing-mode: vertical-lr;
+    letter-spacing: .18em;
+    padding: 10px 9px;
+    font-size: 13px;
+  }
+  .nav-indicator { top: 4px; bottom: 4px; height: auto; transform: none; }
 }
 
 /* ---------- 降低动效偏好 ---------- */
