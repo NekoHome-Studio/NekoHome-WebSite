@@ -28,10 +28,10 @@
   /* 背景图与遮罩（路径 / 强度可在 config.json 覆盖，JS 注入对应变量） */
   --bg-image: url("../assets/background.webp");
   --panel-color: 10, 17, 34;
-  --panel-op: .88;            /* 其它页遮罩强度 */
+  --panel-op: .7;             /* 其它页遮罩强度（与 config.json 默认值一致） */
   --panel: rgba(var(--panel-color), var(--panel-op));
   --mask-color: 5, 10, 24;
-  --mask-hero-op: .7;         /* 首页遮罩强度 */
+  --mask-hero-op: .2;         /* 首页遮罩强度（与 config.json 默认值一致） */
   --card: rgba(255, 255, 255, .05);
   --card-hover: rgba(255, 255, 255, .09);
   --line: rgba(255, 255, 255, .09);
@@ -55,10 +55,10 @@
   --glow-op: .32;
   --grid-line: rgba(23, 32, 52, .05);
   --panel-color: 255, 255, 255;
-  --panel-op: .82;
+  --panel-op: .7;
   --panel: rgba(var(--panel-color), var(--panel-op));
   --mask-color: 233, 242, 251;
-  --mask-hero-op: .76;
+  --mask-hero-op: .2;
   --card: rgba(15, 26, 48, .045);
   --card-hover: rgba(15, 26, 48, .07);
   --line: rgba(15, 26, 48, .11);

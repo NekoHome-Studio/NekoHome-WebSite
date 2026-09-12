@@ -117,7 +117,7 @@ function applyConfig(cfg) {
   // 首页主标题字号（clamp 三段：最小值 / 视口比例 / 最大值）
   if (cfg.hero) {
     const h = cfg.hero;
-    const clamp = `clamp(${h.titleMinPx ?? 44}px, ${h.titleVw ?? 10}vw, ${h.titleMaxPx ?? 128}px)`;
+    const clamp = `clamp(${h.titleMinPx ?? 44}px, ${h.titleVw ?? 10}vw, ${h.titleMaxPx ?? 100}px)`;
     document.documentElement.style.setProperty("--hero-title-size", clamp);
   }
 
