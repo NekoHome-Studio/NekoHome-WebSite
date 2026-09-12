@@ -153,8 +153,65 @@ function initParallax() {
   frame();
 }
 
+/* ---------- 惯性平滑滚动（Lenis）+ 页面吸附 ----------
+   - 滚轮带惯性；触摸保持原生（移动端自带惯性）
+   - 停稳后轻微吸附到最近的整屏页面
+   - 第 4 页「加入我们」与页脚不参与吸附
+   - 降级：Lenis 未加载 / 用户偏好减少动效 → 原生平滑 + CSS 吸附 */
+function initSmoothScroll() {
+  if (reduceMotion || typeof Lenis === "undefined") {
+    document.documentElement.classList.add("native-scroll");
+    return;
+  }
+
+  const lenis = new Lenis({ lerp: 0.1, wheelMultiplier: 1 });
+
+  function raf(time) {
+    lenis.raf(time);
+    requestAnimationFrame(raf);
+  }
+  requestAnimationFrame(raf);
+
+  // 锚点跳转交给 Lenis，保证惯性滚动体验一致
+  $$('a[href^="#"]').forEach(a => {
+    a.addEventListener("click", e => {
+      const hash = a.getAttribute("href");
+      if (hash.length < 2) return;
+      const el = $(hash);
+      if (!el) return;
+      e.preventDefault();
+      lenis.scrollTo(el, { duration: 1.15, easing: t => 1 - Math.pow(1 - t, 4) });
+    });
+  });
+
+  // 吸附点：仅前三个整屏页面（首页/关于/产品）
+  const snapTargets = ["#home", "#about", "#products"].map(s => $(s).offsetTop);
+  const SNAP_MAX_DIST = 0.5; // 距吸附点多近才吸（单位：视口高度）
+  let lastVelocity = 0;
+  let snapTimer = null;
+
+  lenis.on("scroll", e => {
+    lastVelocity = e.velocity;
+    clearTimeout(snapTimer);
+    // 停稳 150ms 后判断是否需要吸附
+    snapTimer = setTimeout(() => {
+      if (Math.abs(lastVelocity) > 0.05) return;
+      const y = window.scrollY;
+      const vh = window.innerHeight;
+      let nearest = null, dist = Infinity;
+      for (const top of snapTargets) {
+        const d = Math.abs(top - y);
+        if (d < dist) { dist = d; nearest = top; }
+      }
+      if (nearest == null || dist < 10 || dist > vh * SNAP_MAX_DIST) return;
+      lenis.scrollTo(nearest, { duration: 0.9, easing: t => 1 - Math.pow(1 - t, 3) });
+    }, 150);
+  });
+}
+
 /* ---------- 各页面进场动画 ---------- */
 function initReveal() {
+
   const io = new IntersectionObserver(entries => {
     for (const e of entries) {
       if (e.isIntersecting) { e.target.classList.add("in-view"); io.unobserve(e.target); }
@@ -285,6 +342,7 @@ function initCopy() {
   $("#year").textContent = new Date().getFullYear();
   initTheme();
   initNav();
+  initSmoothScroll();
   initParallax();
   initReveal();
   initRepos();

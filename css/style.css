@@ -1,6 +1,7 @@
 /* ============================================================
    NekoHome 工作室 · 全局样式
-   现代圆润风格 · 深浅双色主题 · 基于 Bootstrap 5.3 网格
+   现代圆润风格 · 浅蓝主题 · 深浅双色 · 基于 Bootstrap 5.3 网格
+   平滑滚动由 Lenis 驱动（js 侧），此处仅保留原生降级方案
    ============================================================ */
 
 /* ---------- 主题变量 ---------- */
@@ -10,9 +11,9 @@
   --bs-border-radius-lg: 1.5rem;
   --bs-border-radius-sm: .75rem;
 
-  --brand-a: #7c6cff;
-  --brand-b: #38d6ff;
-  --grad: linear-gradient(135deg, #7c6cff, #38d6ff);
+  --brand-a: #2f9dff;
+  --brand-b: #6fd8ff;
+  --grad: linear-gradient(135deg, #2f9dff, #6fd8ff);
   --radius: 1.25rem;
   --radius-sm: .9rem;
   --topbar-h: 68px;
@@ -20,53 +21,57 @@
   --font: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", system-ui, -apple-system, sans-serif;
 
   /* 深色主题（默认） */
-  --bg-base: #070a16;
-  --glow-op: .55;
+  --bg-base: #060d1c;
+  --glow-op: .45;
   --grid-line: rgba(255, 255, 255, .04);
-  --mask: linear-gradient(180deg, rgba(7, 10, 22, .30), rgba(7, 10, 22, .55));
-  --panel: rgba(13, 16, 31, .87);
-  --card: rgba(255, 255, 255, .045);
-  --card-hover: rgba(255, 255, 255, .08);
+  --mask: linear-gradient(180deg, rgba(5, 10, 24, .66), rgba(5, 10, 24, .76));
+  --panel: rgba(10, 17, 34, .88);
+  --card: rgba(255, 255, 255, .05);
+  --card-hover: rgba(255, 255, 255, .09);
   --line: rgba(255, 255, 255, .09);
-  --text: #eef1ff;
-  --muted: rgba(238, 241, 255, .62);
-  --faint: rgba(238, 241, 255, .42);
-  --topbar-bg: rgba(8, 10, 22, .72);
-  --footer-bg: rgba(6, 8, 17, .95);
-  --toast-bg: rgba(20, 24, 44, .92);
+  --text: #eef4ff;
+  --muted: rgba(238, 244, 255, .64);
+  --faint: rgba(238, 244, 255, .44);
+  --topbar-bg: rgba(7, 12, 26, .72);
+  --footer-bg: rgba(6, 10, 22, .95);
+  --toast-bg: rgba(16, 24, 44, .92);
   --shadow: rgba(0, 0, 0, .45);
-  --title-grad: linear-gradient(180deg, #ffffff 30%, rgba(238, 241, 255, .55));
+  --title-grad: linear-gradient(180deg, #ffffff 30%, rgba(238, 244, 255, .55));
   --hint-dot: rgba(255, 255, 255, .9);
 }
 
 [data-bs-theme="light"] {
-  --bg-base: #e9edf6;
-  --glow-op: .38;
-  --grid-line: rgba(23, 27, 46, .05);
-  --mask: linear-gradient(180deg, rgba(233, 237, 246, .25), rgba(233, 237, 246, .45));
-  --panel: rgba(255, 255, 255, .80);
-  --card: rgba(13, 16, 34, .045);
-  --card-hover: rgba(13, 16, 34, .07);
-  --line: rgba(13, 16, 34, .11);
-  --text: #171b2e;
-  --muted: rgba(23, 27, 46, .66);
-  --faint: rgba(23, 27, 46, .45);
+  --bg-base: #e9f2fb;
+  --glow-op: .32;
+  --grid-line: rgba(23, 32, 52, .05);
+  --mask: linear-gradient(180deg, rgba(233, 242, 251, .70), rgba(233, 242, 251, .82));
+  --panel: rgba(255, 255, 255, .82);
+  --card: rgba(15, 26, 48, .045);
+  --card-hover: rgba(15, 26, 48, .07);
+  --line: rgba(15, 26, 48, .11);
+  --text: #14203a;
+  --muted: rgba(20, 32, 58, .68);
+  --faint: rgba(20, 32, 58, .46);
   --topbar-bg: rgba(255, 255, 255, .72);
   --footer-bg: rgba(255, 255, 255, .92);
   --toast-bg: rgba(255, 255, 255, .95);
-  --shadow: rgba(23, 27, 46, .18);
-  --title-grad: linear-gradient(180deg, #1b2040 30%, rgba(27, 32, 64, .55));
-  --hint-dot: rgba(23, 27, 46, .8);
+  --shadow: rgba(20, 32, 58, .18);
+  --title-grad: linear-gradient(180deg, #10203e 30%, rgba(16, 32, 62, .55));
+  --hint-dot: rgba(20, 32, 58, .8);
 }
 
 /* ---------- 基础 ---------- */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 html {
-  scroll-behavior: smooth;
-  scroll-snap-type: y proximity; /* 轻微吸附 */
   background: var(--bg-base);
+  /* 平滑滚动与吸附由 Lenis 驱动；此类为降级方案（Lenis 未加载时由 JS 添加） */
 }
+html.native-scroll {
+  scroll-behavior: smooth;
+  scroll-snap-type: y proximity;
+}
+.snap-section { scroll-snap-align: start; }
 
 body {
   font-family: var(--font);
@@ -81,7 +86,7 @@ a { color: inherit; text-decoration: none; }
 img { display: block; max-width: 100%; }
 ul { list-style: none; margin: 0; padding: 0; }
 button { font-family: inherit; }
-::selection { background: rgba(124, 108, 255, .4); }
+::selection { background: rgba(47, 157, 255, .35); }
 
 /* 主题切换时的过渡动画（JS 会短暂加上 .theme-anim） */
 .theme-anim, .theme-anim *, .theme-anim *::before, .theme-anim *::after {
@@ -95,8 +100,8 @@ button { font-family: inherit; }
   inset: 0;
   z-index: -1;
   overflow: hidden;
-  background: var(--bg-base);
-  transition: background .5s ease;
+  background: var(--bg-base) url("../assets/background.webp") center / cover no-repeat;
+  transition: background-color .5s ease;
 }
 
 .bg-glow {
@@ -109,12 +114,12 @@ button { font-family: inherit; }
 .bg-glow-a {
   width: 46vw; height: 46vw; min-width: 420px; min-height: 420px;
   left: -10vw; top: -12vw;
-  background: radial-gradient(circle, rgba(124, 108, 255, .40), transparent 65%);
+  background: radial-gradient(circle, rgba(47, 157, 255, .38), transparent 65%);
 }
 .bg-glow-b {
   width: 42vw; height: 42vw; min-width: 380px; min-height: 380px;
   right: -12vw; bottom: -14vw;
-  background: radial-gradient(circle, rgba(56, 214, 255, .32), transparent 65%);
+  background: radial-gradient(circle, rgba(111, 216, 255, .30), transparent 65%);
 }
 
 .bg-grid {
@@ -179,7 +184,7 @@ button { font-family: inherit; }
 .theme-toggle:hover {
   transform: rotate(20deg) scale(1.08);
   background: var(--card-hover);
-  border-color: rgba(124, 108, 255, .5);
+  border-color: rgba(47, 157, 255, .5);
 }
 .theme-toggle svg {
   width: 18px; height: 18px;
@@ -223,7 +228,6 @@ button { font-family: inherit; }
   z-index: 0;
   min-height: 100vh;
   min-height: 100svh;
-  scroll-snap-align: start;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -296,7 +300,6 @@ button { font-family: inherit; }
   z-index: 1;
   min-height: 100vh;
   min-height: 100svh;
-  scroll-snap-align: start;
   display: flex;
   align-items: center;
   padding: calc(var(--topbar-h) + 48px) clamp(16px, 4vw, 48px) 72px;
@@ -386,7 +389,7 @@ button { font-family: inherit; }
 .repo-card:hover {
   transform: translateY(-5px);
   background: var(--card-hover);
-  border-color: rgba(124, 108, 255, .5);
+  border-color: rgba(47, 157, 255, .5);
   box-shadow: 0 18px 40px -18px var(--shadow);
 }
 
@@ -492,13 +495,13 @@ button { font-family: inherit; }
   border-radius: 999px;
   font-size: 15px;
   font-weight: 700;
-  color: #0b0d18;
+  color: #061020;
   background: var(--grad);
   border: none;
-  box-shadow: 0 10px 30px -10px rgba(124, 108, 255, .6);
+  box-shadow: 0 10px 30px -10px rgba(47, 157, 255, .55);
   transition: transform .3s var(--ease), box-shadow .3s ease, filter .3s ease;
 }
-.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 16px 38px -10px rgba(124, 108, 255, .75); color: #0b0d18; filter: brightness(1.06); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 16px 38px -10px rgba(47, 157, 255, .7); color: #061020; filter: brightness(1.06); }
 .btn-primary:active { transform: translateY(0); }
 
 .btn-ghost {
@@ -516,7 +519,7 @@ button { font-family: inherit; }
   cursor: pointer;
   transition: transform .3s var(--ease), background .3s ease, border-color .3s ease;
 }
-.btn-ghost:hover { background: var(--card-hover); border-color: rgba(124, 108, 255, .5); color: var(--text); }
+.btn-ghost:hover { background: var(--card-hover); border-color: rgba(47, 157, 255, .5); color: var(--text); }
 .btn-ghost:active { transform: translateY(0); }
 .btn-ghost.btn-sm { padding: 7px 18px; font-size: 13px; }
 
@@ -603,7 +606,7 @@ button { font-family: inherit; }
 
 /* ---------- 降低动效偏好 ---------- */
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
+  html.native-scroll, html { scroll-behavior: auto; }
   .reveal { opacity: 1; transform: none; transition: none; }
   .hero-stage, .scroll-hint, .topbar { animation: none; }
   .scroll-hint-line i { animation: none; }

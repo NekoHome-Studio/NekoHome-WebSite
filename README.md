@@ -9,8 +9,10 @@
 - **产品**：读取 `data/repos.json` 中的 GitHub 仓库链接，前端自动调用 GitHub API 解析出仓库名、简介、Star / Fork 数，长方形小卡片 3 列居中排布，带骨架屏加载
 - **加入**：QQ 群号一键复制（含降级方案）+ QQ 加群跳转链接
 - **页脚**：Logo + 大字工作室名、4 个页面跳转、ICP 备案号
-- **全局**：顶栏滑动指示器随当前页顺畅移动、页面滚动轻微吸附、各页面进场动画
-- **主题**：深浅色切换（顶栏按钮），默认跟随系统，选择记忆在 localStorage
+- **全局**：顶栏滑动指示器随当前页顺畅移动、各页面进场动画
+- **滚动**：Lenis 惯性平滑滚动，停稳后轻微吸附到整屏页面（加入我们/页脚不吸附）；降级时回退原生平滑 + CSS 吸附
+- **主题**：浅蓝配色，深浅色切换（顶栏按钮），默认跟随系统，选择记忆在 localStorage
+- **背景**：固定背景图（`assets/background.webp`，由 ffmpeg 自 jpg 转换）+ 微遮罩 + 光晕网格
 
 ## 本地运行
 
@@ -51,6 +53,8 @@ npx serve .
 ├── data/
 │   ├── config.json     # 站点配置
 │   └── repos.json      # 仓库链接列表
-├── assets/             # Logo / 形象图占位
-└── vendor/bootstrap/   # Bootstrap 5.3.3 本地副本
+├── assets/             # Logo / 形象图占位 / 背景图 webp
+└── vendor/
+    ├── bootstrap/      # Bootstrap 5.3.3 本地副本
+    └── lenis/          # Lenis 惯性平滑滚动本地副本
 ```
