@@ -1,6 +1,6 @@
 /* ============================================================
    NekoHome 工作室 · app.js
-   主题切换 / 配置加载 / 导航指示器 / 首页视差 / GitHub 解析 / 复制
+   主题切换 / 配置加载 / 导航指示器 / 首页轻视差 / GitHub 解析 / 复制
    ============================================================ */
 
 "use strict";
@@ -54,13 +54,6 @@ function initTheme() {
     });
   }
 }
-
-/* ---------- 加入页图标（config.json 的 join.cards[].icon 按名取用） ---------- */
-const JOIN_ICONS = {
-  chat: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>',
-  code: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>',
-  eye: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>'
-};
 
 /* ---------- 站点配置（data/config.json） ---------- */
 async function loadConfig() {
@@ -129,14 +122,13 @@ function applyConfig(cfg) {
     $$('[data-cfg="copyright"]').forEach(el => (el.textContent = text));
   }
 
-  // 加入页：理由卡片（icon 支持 chat / code / eye 等内置图标名）
+  // 加入页：理由条目（朴素的标题 + 描述，icon 字段已不再使用）
   const cards = getPath(cfg, "join.cards");
   const joinGrid = $("#join-cards");
   if (Array.isArray(cards) && joinGrid) {
     joinGrid.innerHTML = cards.map((c, i) => `
       <div class="col-md-4 reveal" style="--d: ${(i * 0.08).toFixed(2)}s">
         <div class="join-card">
-          <span class="join-icon">${JOIN_ICONS[c.icon] || JOIN_ICONS.chat}</span>
           <h3>${esc(c.title)}</h3>
           <p>${esc(c.text)}</p>
         </div>
@@ -181,7 +173,7 @@ function initNav() {
   reposition();
 }
 
-/* ---------- 首页大字视差：滚动时缩小、上移、渐隐 ---------- */
+/* ---------- 首页大字动画：滚动时缩小、上移、渐隐（仅文字区，CTA 不受影响） ---------- */
 function initParallax() {
   const heroInner = $(".hero-inner");
   const scrollHint = $(".scroll-hint");
@@ -195,7 +187,7 @@ function initParallax() {
       const p = Math.min(Math.max(y / vh, 0), 1);
       heroInner.style.transform = `translate3d(0, ${(-y * 0.42).toFixed(1)}px, 0) scale(${(1 - p * 0.42).toFixed(3)})`;
       heroInner.style.opacity = Math.max(0, 1 - p * 1.05).toFixed(3);
-      scrollHint.style.opacity = Math.max(0, 1 - p * 3).toFixed(3);
+      scrollHint.style.opacity = Math.max(0, 1 - p * 2.5).toFixed(3);
     }
     updateActive();
     ticking = false;
@@ -207,21 +199,16 @@ function initParallax() {
   frame();
 }
 
-/* ---------- 惯性平滑滚动（Lenis）+ 页面吸附 ----------
+/* ---------- 惯性平滑滚动（Lenis，无整屏吸附） ----------
    - 滚轮带惯性；触摸保持原生（移动端自带惯性）
-   - 停稳后轻微吸附到最近的整屏页面
-   - 第 4 页「加入我们」与页脚不参与吸附
-   - 降级：Lenis 未加载 / 用户偏好减少动效 → 原生平滑 + CSS 吸附 */
+   - 内容驱动的页面不做整屏吸附，滚到哪停哪
+   - 降级：Lenis 未加载 / 用户偏好减少动效 → 原生平滑滚动 */
 function initSmoothScroll(cfg) {
   // 滚动手感参数：config.json 的 scroll 段优先，缺项用默认值兜底
   const sc = Object.assign({
     lerp: 0.1,             // 惯性系数（0~1，越小越"糯"）
     wheelMultiplier: 1,    // 滚轮速度倍率
-    anchorDuration: 1.15,  // 导航锚点跳转时长（秒）
-    snapMaxDist: 0.2,      // 吸附触发距离（单位：视口高度）
-    snapDelay: 150,        // 停稳判定延迟（毫秒）
-    snapVelocity: 0.05,    // 吸附速度阈值
-    snapDuration: 0.9      // 吸附动画时长（秒）
+    anchorDuration: 1.15   // 导航锚点跳转时长（秒）
   }, (cfg && cfg.scroll) || {});
 
   if (reduceMotion || typeof Lenis === "undefined") {
@@ -248,29 +235,6 @@ function initSmoothScroll(cfg) {
       lenis.scrollTo(el, { duration: sc.anchorDuration, easing: t => 1 - Math.pow(1 - t, 4) });
     });
   });
-
-  // 吸附点：仅前三个整屏页面（首页/关于/产品）
-  const snapTargets = ["#home", "#about", "#products"].map(s => $(s).offsetTop);
-  let lastVelocity = 0;
-  let snapTimer = null;
-
-  lenis.on("scroll", e => {
-    lastVelocity = e.velocity;
-    clearTimeout(snapTimer);
-    // 停稳后判断是否需要吸附
-    snapTimer = setTimeout(() => {
-      if (Math.abs(lastVelocity) > sc.snapVelocity) return;
-      const y = window.scrollY;
-      const vh = window.innerHeight;
-      let nearest = null, dist = Infinity;
-      for (const top of snapTargets) {
-        const d = Math.abs(top - y);
-        if (d < dist) { dist = d; nearest = top; }
-      }
-      if (nearest == null || dist < 10 || dist > vh * sc.snapMaxDist) return;
-      lenis.scrollTo(nearest, { duration: sc.snapDuration, easing: t => 1 - Math.pow(1 - t, 3) });
-    }, sc.snapDelay);
-  });
 }
 
 /* ---------- 各页面进场动画 ---------- */
@@ -284,7 +248,7 @@ function initReveal() {
   $$(".reveal").forEach(el => io.observe(el));
 }
 
-/* ---------- 产品页：读取 data/repos.json，经 GitHub API 解析仓库 ---------- */
+/* ---------- 作品页：读取 data/repos.json，经 GitHub API 解析仓库 ---------- */
 const ICONS = {
   book: '<svg class="repo-book" viewBox="0 0 16 16" width="17" height="17" fill="currentColor" aria-hidden="true"><path d="M2 2.5A2.5 2.5 0 0 1 4.5 0h8.75a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-.75.75h-2.5a.75.75 0 0 1 0-1.5h1.75v-2h-8a1 1 0 0 0-.714 1.7.75.75 0 1 1-1.072 1.05A2.495 2.495 0 0 1 2 11.5Zm10.875-1.75a.25.25 0 0 0-.25-.25h-8a.25.25 0 0 0-.25.25V6.5h8.5V.75Z"/></svg>',
   star: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>',
@@ -360,7 +324,7 @@ async function loadRepos() {
     return;
   }
   if (!Array.isArray(urls) || urls.length === 0) {
-    grid.innerHTML = errorCard("暂无产品", "请在 data/repos.json 中添加 GitHub 仓库链接");
+    grid.innerHTML = errorCard("暂无作品", "请在 data/repos.json 中添加 GitHub 仓库链接");
     return;
   }
   grid.innerHTML = skeletons(urls.length);
