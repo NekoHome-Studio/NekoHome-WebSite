@@ -6,7 +6,7 @@
   <title>NekoHome</title>
   <meta name="description" content="NekoHome官方网站" />
   <meta name="theme-color" content="#070a16" />
-  <!-- 尽早设置主题，避免深浅色闪烁 -->
+  <!-- 尽早设置主题，避免深浅色闪烁；按缓存的 loading 开关决定是否跳过加载遮罩 -->
   <script>
     (function () {
       var t = localStorage.getItem('neko-theme');
@@ -14,6 +14,9 @@
         t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
       }
       document.documentElement.setAttribute('data-bs-theme', t);
+      if (localStorage.getItem('neko-loading') === '0') {
+        document.documentElement.classList.add('no-loading');
+      }
     })();
   </script>
   <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />

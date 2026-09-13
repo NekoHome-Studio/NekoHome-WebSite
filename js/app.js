@@ -416,6 +416,12 @@ function initLoader(cfgPromise) {
     setTimeout(() => overlay.remove(), 400);
   }
 
+  // 同步 loading 开关到缓存（供 head 内联脚本下次渲染前免闪烁判断）；本次为 false 则立即关闭
+  cfgPromise.then(cfg => {
+    try { localStorage.setItem("neko-loading", cfg && cfg.loading === false ? "0" : "1"); } catch { /* 忽略 */ }
+    if (cfg && cfg.loading === false) hide();
+  });
+
   const loaded = new Promise(res => {
     if (document.readyState === "complete") res();
     else window.addEventListener("load", res, { once: true });
