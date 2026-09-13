@@ -5,6 +5,15 @@
    平滑滚动由 Lenis 驱动（js 侧），此处仅保留原生降级方案
    ============================================================ */
 
+/* ---------- 本地字体（首页主标题用 Manrope，SIL OFL 1.1，许可证见 assets/fonts/OFL.txt） ---------- */
+@font-face {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../assets/fonts/manrope-latin-600.woff2") format("woff2");
+}
+
 /* ---------- 主题变量 ---------- */
 :root {
   /* 让 Bootstrap 组件保持克制的圆角 */
@@ -154,6 +163,20 @@ a:focus-visible, button:focus-visible {
   transition: opacity .5s ease;
 }
 
+/* 动态网格画布：JS 增强就绪前隐藏，静态 ::after 网格始终兜底；
+   .hero.grid-live 时画布接管、静态网格移除（两者首帧画面一致，无闪烁） */
+.hero-grid-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  display: none;
+  pointer-events: none;
+}
+.hero.grid-live .hero-grid-canvas { display: block; }
+.hero.grid-live::after { content: none; }
+
 /* ---------- 顶栏 ---------- */
 .topbar {
   position: fixed;
@@ -268,9 +291,10 @@ a:focus-visible, button:focus-visible {
   margin-bottom: 16px;
 }
 .hero-title {
+  font-family: "Manrope", var(--font);
   font-size: var(--hero-title-size, clamp(44px, 10vw, 128px));
-  font-weight: 800;
-  letter-spacing: .02em;
+  font-weight: 600;
+  letter-spacing: -.035em;
   line-height: 1.12;
   color: var(--text);
 }
