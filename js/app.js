@@ -142,6 +142,9 @@ function applyConfig(cfg) {
         </div>
       </div>`).join("");
   }
+
+  // 配置已全部就位：解除 booting 态，渲染页面（loading 遮罩若启用此刻已先行创建，盖于其上）
+  document.documentElement.classList.remove("booting");
 }
 
 /* ---------- 顶栏滑动指示器 & 当前页高亮 ---------- */

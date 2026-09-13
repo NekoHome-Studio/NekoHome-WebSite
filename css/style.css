@@ -99,6 +99,10 @@ body {
 html { scrollbar-width: none; }
 html::-webkit-scrollbar { display: none; }
 
+/* config 应用完成前不渲染页面：所有配置文案就位后再显示，杜绝默认值闪现。
+   booting 类仅由 head 内联脚本添加，JS 禁用时不会存在，页面正常显示 */
+html.booting body { visibility: hidden; }
+
 a { color: inherit; text-decoration: none; }
 img { display: block; max-width: 100%; }
 ul { list-style: none; margin: 0; padding: 0; }
