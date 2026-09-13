@@ -416,10 +416,11 @@ function initLoader(cfgPromise) {
     setTimeout(() => overlay.remove(), 400);
   }
 
-  // 同步 loading 开关到缓存（供 head 内联脚本下次渲染前免闪烁判断）；本次为 false 则立即关闭
+  // 同步 loading 开关到缓存（供 head 内联脚本下次渲染前免闪烁判断）；默认不启用，显式 true 才显示
   cfgPromise.then(cfg => {
-    try { localStorage.setItem("neko-loading", cfg && cfg.loading === false ? "0" : "1"); } catch { /* 忽略 */ }
-    if (cfg && cfg.loading === false) hide();
+    const enabled = !!(cfg && cfg.loading === true);
+    try { localStorage.setItem("neko-loading", enabled ? "1" : "0"); } catch { /* 忽略 */ }
+    if (!enabled) hide();
   });
 
   const loaded = new Promise(res => {
