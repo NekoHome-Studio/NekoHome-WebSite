@@ -156,6 +156,8 @@ button { font-family: inherit; }
   color: var(--muted);
 }
 #page-loading-overlay.page-loading-overlay-hidden { opacity: 0; }
+/* NK_LOADING_ENABLED = false 时（脚本在渲染前给 html 加类）完全不显示遮罩 */
+html.no-loading #page-loading-overlay { display: none; }
 
 /* ---------- 固定背景层（最底部，滚动时被页面遮住） ---------- */
 .bg-layer {
