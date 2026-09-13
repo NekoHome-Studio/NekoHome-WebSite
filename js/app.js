@@ -416,11 +416,9 @@ function initLoader(cfgPromise) {
     setTimeout(() => overlay.remove(), 400);
   }
 
-  // 同步 loading 开关到缓存（供 head 内联脚本下次渲染前免闪烁判断）；默认不启用，显式 true 才显示
+  // 开关直接读 config：默认不启用，显式 true 才显示；false 时立即淡出关闭
   cfgPromise.then(cfg => {
-    const enabled = !!(cfg && cfg.loading === true);
-    try { localStorage.setItem("neko-loading", enabled ? "1" : "0"); } catch { /* 忽略 */ }
-    if (!enabled) hide();
+    if (!(cfg && cfg.loading === true)) hide();
   });
 
   const loaded = new Promise(res => {

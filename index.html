@@ -14,9 +14,6 @@
         t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
       }
       document.documentElement.setAttribute('data-bs-theme', t);
-      if (localStorage.getItem('neko-loading') === '0') {
-        document.documentElement.classList.add('no-loading');
-      }
     })();
   </script>
   <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />

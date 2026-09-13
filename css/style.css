@@ -156,8 +156,6 @@ button { font-family: inherit; }
   color: var(--muted);
 }
 #page-loading-overlay.page-loading-overlay-hidden { opacity: 0; }
-/* config.json 的 loading=false 时由 head 内联脚本按 localStorage 缓存提前隐藏，零闪烁 */
-html.no-loading #page-loading-overlay { display: none; }
 
 /* ---------- 固定背景层（最底部，滚动时被页面遮住） ---------- */
 .bg-layer {
