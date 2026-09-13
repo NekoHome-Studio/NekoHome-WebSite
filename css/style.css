@@ -160,7 +160,12 @@ button { font-family: inherit; }
   font-size: .875rem;
   color: var(--muted);
 }
-#page-loading-overlay.page-loading-overlay-hidden { opacity: 0; }
+#page-loading-overlay.page-loading-overlay-hidden {
+  opacity: 0;
+  /* 关键：hide() 早于进场延迟到达时，阻止 animation 到点把 visibility 翻成 visible
+     （否则 250ms 处遮罩会以 opacity≈0.5 闪现一帧） */
+  animation: none;
+}
 
 /* ---------- 固定背景层（最底部，滚动时被页面遮住） ---------- */
 .bg-layer {
