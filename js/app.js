@@ -218,7 +218,7 @@ function initSmoothScroll(cfg) {
     lerp: 0.1,             // 惯性系数（0~1，越小越"糯"）
     wheelMultiplier: 1,    // 滚轮速度倍率
     anchorDuration: 1.15,  // 导航锚点跳转时长（秒）
-    snapMaxDist: 0.5,      // 吸附触发距离（单位：视口高度）
+    snapMaxDist: 0.35,     // 吸附触发距离（单位：视口高度）
     snapDelay: 150,        // 停稳判定延迟（毫秒）
     snapVelocity: 0.05,    // 吸附速度阈值
     snapDuration: 0.9      // 吸附动画时长（秒）
