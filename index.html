@@ -22,22 +22,6 @@
 </head>
 <body>
 
-  <!-- 首屏加载遮罩：防止配置加载前默认文案闪烁，就绪后淡出移除 -->
-  <div id="page-loading-overlay" aria-hidden="true">
-    <div class="page-loading-content">
-      <span class="page-loading-spinner">
-        <svg viewBox="0 0 24 24" fill="none">
-          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
-          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-        </svg>
-      </span>
-      <div class="page-loading-brand">
-        <span class="page-loading-title">NekoHome</span>
-        <span class="page-loading-subtitle">把灵感，做成作品</span>
-      </div>
-    </div>
-  </div>
-
   <!-- 固定背景层：始终位于最底部，滚动时被各页面遮住 -->
   <div class="bg-layer" aria-hidden="true">
     <div class="bg-glow bg-glow-a"></div>

@@ -123,12 +123,7 @@ button { font-family: inherit; }
   display: flex;
   align-items: center;
   justify-content: center;
-  /* 进场延迟：config 很快返回且 loading=false 时，hide() 先于可见时刻到达，
-     遮罩从未出现；只有真的需要等待（config 慢）时才现身 */
-  visibility: hidden;
-  animation: loader-show 0s .25s forwards;
 }
-@keyframes loader-show { to { visibility: visible; } }
 #page-loading-overlay .page-loading-content {
   display: flex;
   flex-direction: column;
@@ -160,12 +155,7 @@ button { font-family: inherit; }
   font-size: .875rem;
   color: var(--muted);
 }
-#page-loading-overlay.page-loading-overlay-hidden {
-  opacity: 0;
-  /* 关键：hide() 早于进场延迟到达时，阻止 animation 到点把 visibility 翻成 visible
-     （否则 250ms 处遮罩会以 opacity≈0.5 闪现一帧） */
-  animation: none;
-}
+#page-loading-overlay.page-loading-overlay-hidden { opacity: 0; }
 
 /* ---------- 固定背景层（最底部，滚动时被页面遮住） ---------- */
 .bg-layer {

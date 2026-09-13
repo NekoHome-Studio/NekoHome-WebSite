@@ -401,32 +401,43 @@ function initCopy() {
   });
 }
 
-/* ---------- 首屏加载遮罩 ----------
-   config 应用完成且页面资源就绪后淡出移除（3s 兜底防资源挂起） */
+/* ---------- 首屏加载遮罩（纯 JS 渲染，不在 HTML 中静态存在） ----------
+   config 确认 loading=true 后才创建并显示；false 时遮罩不进入 DOM，绝不闪现。
+   显示后等 window load（3s 兜底）淡出移除。 */
 function initLoader(cfgPromise) {
-  const overlay = $("#page-loading-overlay");
-  if (!overlay) return;
-  if (reduceMotion) { overlay.remove(); return; }
+  if (reduceMotion) return;
 
-  let hidden = false;
-  function hide() {
-    if (hidden) return;
-    hidden = true;
-    overlay.classList.add("page-loading-overlay-hidden");
-    setTimeout(() => overlay.remove(), 400);
-  }
-
-  // 开关直接读 config：默认不启用，显式 true 才显示；false 时立即淡出关闭
   cfgPromise.then(cfg => {
-    if (!(cfg && cfg.loading === true)) hide();
-  });
+    if (!(cfg && cfg.loading === true)) return;
 
-  const loaded = new Promise(res => {
-    if (document.readyState === "complete") res();
-    else window.addEventListener("load", res, { once: true });
+    const overlay = document.createElement("div");
+    overlay.id = "page-loading-overlay";
+    overlay.setAttribute("aria-hidden", "true");
+    overlay.innerHTML = `
+      <div class="page-loading-content">
+        <span class="page-loading-spinner">
+          <svg viewBox="0 0 24 24" fill="none">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+          </svg>
+        </span>
+        <div class="page-loading-brand">
+          <span class="page-loading-title">NekoHome</span>
+          <span class="page-loading-subtitle">把灵感，做成作品</span>
+        </div>
+      </div>`;
+    document.body.prepend(overlay);
+
+    const loaded = new Promise(res => {
+      if (document.readyState === "complete") res();
+      else window.addEventListener("load", res, { once: true });
+    });
+    const timeout = new Promise(res => setTimeout(res, 3000));
+    Promise.race([loaded, timeout]).then(() => {
+      overlay.classList.add("page-loading-overlay-hidden");
+      setTimeout(() => overlay.remove(), 400);
+    });
   });
-  const timeout = new Promise(res => setTimeout(res, 3000));
-  Promise.race([Promise.all([loaded, cfgPromise]), timeout]).then(hide);
 }
 
 /* ---------- 启动 ---------- */
