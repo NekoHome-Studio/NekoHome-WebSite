@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>NekoHome 工作室</title>
-  <meta name="description" content="NekoHome 工作室官方网站" />
+  <title>NekoHome</title>
+  <meta name="description" content="NekoHome官方网站" />
   <meta name="theme-color" content="#070a16" />
   <!-- 尽早设置主题，避免深浅色闪烁 -->
   <script>
@@ -22,6 +22,22 @@
 </head>
 <body>
 
+  <!-- 首屏加载遮罩：防止配置加载前默认文案闪烁，就绪后淡出移除 -->
+  <div id="page-loading-overlay" aria-hidden="true">
+    <div class="page-loading-content">
+      <span class="page-loading-spinner">
+        <svg viewBox="0 0 24 24" fill="none">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+        </svg>
+      </span>
+      <div class="page-loading-brand">
+        <span class="page-loading-title">NekoHome</span>
+        <span class="page-loading-subtitle">把灵感，做成作品</span>
+      </div>
+    </div>
+  </div>
+
   <!-- 固定背景层：始终位于最底部，滚动时被各页面遮住 -->
   <div class="bg-layer" aria-hidden="true">
     <div class="bg-glow bg-glow-a"></div>
@@ -33,7 +49,7 @@
   <header class="topbar" id="topbar">
     <a class="brand" href="#home">
       <img data-cfg-src="topLogo" src="assets/logo.webp" alt="Logo" class="brand-logo" />
-      <span class="brand-name" data-cfg="studioName">NekoHome 工作室</span>
+      <span class="brand-name" data-cfg="studioName">NekoHome</span>
     </a>
     <div class="topbar-right">
       <button class="theme-toggle" id="theme-toggle" type="button" aria-label="切换深浅色主题">
@@ -61,7 +77,7 @@
       <div class="hero-stage">
         <div class="hero-inner">
           <p class="hero-eyebrow" data-cfg="heroTags">独立 · 开源 · 创造</p>
-          <h1 class="hero-title" data-cfg="studioName">NekoHome 工作室</h1>
+          <h1 class="hero-title" data-cfg="studioName">NekoHome</h1>
           <p class="hero-slogan" data-cfg="slogan">把灵感，做成作品</p>
         </div>
       </div>
@@ -158,7 +174,7 @@
     <div class="footer-inner container-xl">
       <a class="footer-brand" href="#home">
         <img data-cfg-src="footerLogo" src="assets/logo.webp" alt="" class="footer-logo" />
-        <span class="footer-name" data-cfg="studioName">NekoHome 工作室</span>
+        <span class="footer-name" data-cfg="studioName">NekoHome</span>
       </a>
       <nav class="footer-nav">
         <a href="#home">首页</a>
@@ -167,7 +183,7 @@
         <a href="#join">加入</a>
       </nav>
       <div class="footer-icp">
-        <span data-cfg="copyright">© 2026 NekoHome 工作室 · 保留所有权利</span>
+        <span data-cfg="copyright">© 2026 NekoHome · 保留所有权利</span>
         <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener" id="icp-link"></a>
       </div>
     </div>

@@ -401,11 +401,36 @@ function initCopy() {
   });
 }
 
+/* ---------- 首屏加载遮罩 ----------
+   config 应用完成且页面资源就绪后淡出移除（3s 兜底防资源挂起） */
+function initLoader(cfgPromise) {
+  const overlay = $("#page-loading-overlay");
+  if (!overlay) return;
+  if (reduceMotion) { overlay.remove(); return; }
+
+  let hidden = false;
+  function hide() {
+    if (hidden) return;
+    hidden = true;
+    overlay.classList.add("page-loading-overlay-hidden");
+    setTimeout(() => overlay.remove(), 400);
+  }
+
+  const loaded = new Promise(res => {
+    if (document.readyState === "complete") res();
+    else window.addEventListener("load", res, { once: true });
+  });
+  const timeout = new Promise(res => setTimeout(res, 3000));
+  Promise.race([Promise.all([loaded, cfgPromise]), timeout]).then(hide);
+}
+
 /* ---------- 启动 ---------- */
 (async function init() {
+  const cfgPromise = loadConfig();
   initTheme();
+  initLoader(cfgPromise);
 
-  const cfg = await loadConfig();
+  const cfg = await cfgPromise;
   applyConfig(cfg);
 
   initNav();
