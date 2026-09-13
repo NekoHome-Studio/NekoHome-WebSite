@@ -632,7 +632,7 @@ a:focus-visible, button:focus-visible {
   .qq-info, .qq-actions { justify-content: center; }
 }
 @media (max-width: 599.98px) {
-  /* 小屏隐藏顶栏工作室名字，Logo + 横向导航保持一行（总宽约 290px，兼容 320px 设备） */
+  /* 阶段 1：隐藏顶栏工作室名字，保留 Logo 图与横排导航 */
   .topbar { padding: 0 16px; }
   .topbar-right { gap: 8px; }
   .brand-name { display: none; }
@@ -642,6 +642,21 @@ a:focus-visible, button:focus-visible {
   .hero-actions { margin-top: 28px; }
   .hero-eyebrow { letter-spacing: .22em; }
   .scroll-hint { display: none; }
+}
+@media (max-width: 449.98px) {
+  /* 阶段 2：导航文字竖写，指示器同步变为竖向 */
+  .nav-link {
+    writing-mode: vertical-lr;
+    letter-spacing: .18em;
+    padding: 10px 9px;
+    font-size: 13px;
+  }
+  .nav-indicator {
+    top: 4px;
+    bottom: 4px;
+    height: auto;
+    transform: none;
+  }
 }
 
 /* ---------- 降低动效偏好 ---------- */
