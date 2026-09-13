@@ -401,22 +401,51 @@ function initCopy() {
   });
 }
 
-/* ---------- 首屏加载遮罩 ----------
-   由 index.html 顶部内联常量 NK_LOADING_ENABLED 控制是否存在（关闭时节点渲染前即被隐藏）。
-   存在则等 window load（3s 兜底防资源挂起）淡出移除。 */
-function initLoader() {
-  const overlay = $("#page-loading-overlay");
-  if (!overlay) return;
-  if (reduceMotion) { overlay.remove(); return; }
+/* ---------- 首屏加载遮罩（纯 JS 延迟渲染，开关与文案均来自 config.json） ----------
+   config 确认 loading=true 后才创建并显示，文案取 studioName/slogan；
+   window load（3s 兜底）后淡出，且自创建起保底显示 300ms 避免一闪而过。 */
+function initLoader(cfgPromise) {
+  if (reduceMotion) return;
 
-  const loaded = new Promise(res => {
-    if (document.readyState === "complete") res();
-    else window.addEventListener("load", res, { once: true });
-  });
-  const timeout = new Promise(res => setTimeout(res, 3000));
-  Promise.race([loaded, timeout]).then(() => {
-    overlay.classList.add("page-loading-overlay-hidden");
-    setTimeout(() => overlay.remove(), 400);
+  cfgPromise.then(cfg => {
+    if (!(cfg && cfg.loading === true)) return;
+
+    const title = (typeof cfg.studioName === "string" && cfg.studioName) || "NekoHome";
+    const subtitle = (typeof cfg.slogan === "string" && cfg.slogan) || "把灵感，做成作品";
+
+    const overlay = document.createElement("div");
+    overlay.id = "page-loading-overlay";
+    overlay.setAttribute("aria-hidden", "true");
+    overlay.innerHTML = `
+      <div class="page-loading-content">
+        <span class="page-loading-spinner">
+          <svg viewBox="0 0 24 24" fill="none">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+          </svg>
+        </span>
+        <div class="page-loading-brand">
+          <span class="page-loading-title"></span>
+          <span class="page-loading-subtitle"></span>
+        </div>
+      </div>`;
+    overlay.querySelector(".page-loading-title").textContent = title;
+    overlay.querySelector(".page-loading-subtitle").textContent = subtitle;
+    document.body.prepend(overlay);
+
+    const shownAt = performance.now();
+    const loaded = new Promise(res => {
+      if (document.readyState === "complete") res();
+      else window.addEventListener("load", res, { once: true });
+    });
+    const timeout = new Promise(res => setTimeout(res, 3000));
+    Promise.race([loaded, timeout]).then(() => {
+      const remain = 300 - (performance.now() - shownAt); // 保底显示 300ms
+      setTimeout(() => {
+        overlay.classList.add("page-loading-overlay-hidden");
+        setTimeout(() => overlay.remove(), 400);
+      }, Math.max(0, remain));
+    });
   });
 }
 
@@ -424,7 +453,7 @@ function initLoader() {
 (async function init() {
   const cfgPromise = loadConfig();
   initTheme();
-  initLoader();
+  initLoader(cfgPromise);
 
   const cfg = await cfgPromise;
   applyConfig(cfg);

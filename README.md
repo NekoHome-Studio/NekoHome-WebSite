@@ -36,7 +36,7 @@ npx serve .
 | `data/repos.json` | GitHub 仓库链接数组（填 URL 即可，自动解析） |
 | `assets/logo.svg` | Logo 占位图（可替换） |
 
-> 首屏加载遮罩不由 config.json 控制，开关在 `index.html` 顶部内联常量 `NK_LOADING_ENABLED`（`true` 开 / `false` 关，关闭时渲染前即隐藏，零闪烁）。
+> 首屏加载遮罩由 `config.json` 的 `loading` 字段控制（`true` 开 / `false` 关）。遮罩在 config 加载完成后才渲染，标题/副标题自动取 `studioName`/`slogan`，保底显示 300ms。
 | `assets/about.svg` | 关于页 4:3 占位图（可替换为照片/插画） |
 | `assets/background.webp` | 首页固定背景图（可替换） |
 
