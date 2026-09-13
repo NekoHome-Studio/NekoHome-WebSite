@@ -123,7 +123,12 @@ button { font-family: inherit; }
   display: flex;
   align-items: center;
   justify-content: center;
+  /* 进场延迟：config 很快返回且 loading=false 时，hide() 先于可见时刻到达，
+     遮罩从未出现；只有真的需要等待（config 慢）时才现身 */
+  visibility: hidden;
+  animation: loader-show 0s .25s forwards;
 }
+@keyframes loader-show { to { visibility: visible; } }
 #page-loading-overlay .page-loading-content {
   display: flex;
   flex-direction: column;
