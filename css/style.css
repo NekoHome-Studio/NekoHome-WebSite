@@ -99,10 +99,6 @@ body {
 html { scrollbar-width: none; }
 html::-webkit-scrollbar { display: none; }
 
-/* config 应用完成前不渲染页面：所有配置文案就位后再显示，杜绝默认值闪现。
-   booting 类仅由 head 内联脚本添加，JS 禁用时不会存在，页面正常显示 */
-html.booting body { visibility: hidden; }
-
 a { color: inherit; text-decoration: none; }
 img { display: block; max-width: 100%; }
 ul { list-style: none; margin: 0; padding: 0; }
@@ -114,52 +110,6 @@ button { font-family: inherit; }
   transition: background-color .45s ease, border-color .45s ease, color .45s ease,
               fill .45s ease, stroke .45s ease, box-shadow .45s ease, opacity .45s ease !important;
 }
-
-/* ---------- 首屏加载遮罩（参考旧版 NekoHome 实现） ---------- */
-#page-loading-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  background: var(--bg-base);
-  opacity: 1;
-  transition: opacity .35s ease;
-  pointer-events: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-#page-loading-overlay .page-loading-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.25rem;
-}
-.page-loading-spinner {
-  width: 36px;
-  height: 36px;
-  color: var(--brand-a);
-  animation: loader-spin 1s linear infinite;
-}
-.page-loading-spinner svg { width: 100%; height: 100%; }
-@keyframes loader-spin { to { transform: rotate(360deg); } }
-#page-loading-overlay .page-loading-brand {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: .25rem;
-  text-align: center;
-}
-#page-loading-overlay .page-loading-title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  letter-spacing: .05em;
-  color: var(--text);
-}
-#page-loading-overlay .page-loading-subtitle {
-  font-size: .875rem;
-  color: var(--muted);
-}
-#page-loading-overlay.page-loading-overlay-hidden { opacity: 0; }
 
 /* ---------- 固定背景层（最底部，滚动时被页面遮住） ---------- */
 .bg-layer {

@@ -6,16 +6,14 @@
   <title>NekoHome</title>
   <meta name="description" content="NekoHome官方网站" />
   <meta name="theme-color" content="#070a16" />
-  <!-- 尽早设置主题，避免深浅色闪烁；标记 booting 态，config 应用完成前 body 不渲染（无 JS 时天然跳过） -->
+  <!-- 尽早设置主题，避免深浅色闪烁 -->
   <script>
     (function () {
-      var html = document.documentElement;
       var t = localStorage.getItem('neko-theme');
       if (t !== 'light' && t !== 'dark') {
         t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
       }
-      html.setAttribute('data-bs-theme', t);
-      html.classList.add('booting');
+      document.documentElement.setAttribute('data-bs-theme', t);
     })();
   </script>
   <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
