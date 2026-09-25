@@ -1,0 +1,63 @@
+{
+  "studioName": "NekoHome",
+  "slogan": "把灵感，做成作品",
+  "heroTags": "独立 · 开源 · 创造",
+  "hero": {
+    "titleMinPx": 44,
+    "titleVw": 10,
+    "titleMaxPx": 100
+  },
+  "copyright": "© {year} {name} · 保留所有权利",
+  "topLogo": "assets/logo.webp",
+  "footerLogo": "assets/logo.webp",
+  "aboutImage": "assets/about.webp",
+  "background": "assets/background.webp",
+  "mask": {
+    "hero": 0.35,
+    "panel": 0.7
+  },
+  "scroll": {
+    "lerp": 0.1,
+    "wheelMultiplier": 1,
+    "anchorDuration": 1.15
+  },
+  "qqGroup": "123456789",
+  "qqJoinUrl": "https://qm.qq.com/q/xxxxxxxxxx",
+  "icp": "某ICP备0000000000号",
+  "about": {
+    "title": "关于我们",
+    "paragraphs": [
+      "第一段：工作室什么时候成立、是做什么的、相信什么样的做事方式。",
+      "第二段：团队做哪些方向的作品、希望访客怎么参与进来。"
+    ],
+    "tags": [
+      "开源开发",
+      "Web 应用",
+      "桌面软件",
+      "移动应用",
+      "界面设计"
+    ]
+  },
+  "join": {
+    "title": "加入我们",
+    "description": "一句话说明欢迎哪些人、加入之后可以一起做什么。",
+    "cards": [
+      {
+        "title": "即时交流",
+        "text": "灌水摸鱼、答疑互助，群里随时聊"
+      },
+      {
+        "title": "参与开发",
+        "text": "提 PR、报 Bug，一起打磨作品"
+      },
+      {
+        "title": "围观学习",
+        "text": "潜水围观也不错，先混个脸熟"
+      }
+    ],
+    "qqLabel": "QQ 群号",
+    "copyButton": "复制群号",
+    "joinButton": "一键加入群聊",
+    "qqTip": "点击复制群号，或一键跳转 QQ 加群"
+  }
+}

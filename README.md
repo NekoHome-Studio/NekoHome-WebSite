@@ -18,9 +18,11 @@
 
 ## 本地运行
 
-由于页面通过 `fetch` 读取本地 JSON 配置，需要用本地服务器打开（不能直接双击 file://）：
+由于页面通过 `fetch` 读取本地 JSON 配置，需要用本地服务器打开（不能直接双击 file://）。先准备好自己的配置（`data/config.json` 不入库）：
 
 ```bash
+cp data/config.example.json data/config.json   # 填写自己的信息
+
 # 任选一种
 python -m http.server 8000
 npx serve .
@@ -30,11 +32,16 @@ npx serve .
 
 ## 自定义配置
 
-主要文案、图片路径与站点参数都在独立的静态文件里，**改数据不用动代码**：
+主要文案、图片路径与站点参数都在独立的静态文件里，**改数据不用动代码**。站点配置 `data/config.json` 属于本地私有文件，已写入 `.gitignore` 不入库，克隆后从示例复制一份再填：
+
+```bash
+cp data/config.example.json data/config.json
+```
 
 | 文件 | 内容 |
 | --- | --- |
-| `data/config.json` | 主要文案与参数：工作室信息、首页标题字号、版权模板、QQ/ICP、滚动手感 |
+| `data/config.json` | 主要文案与参数（本地私有，不入库）：工作室信息、首页标题字号、版权模板、QQ/ICP、滚动手感 |
+| `data/config.example.json` | 配置示例模板，新部署从这里复制 |
 | `data/repos.json` | GitHub 仓库链接数组（填 URL 即可，自动解析） |
 | `assets/logo.webp` | Logo 图（顶栏 / 页脚共用，路径可在 config.json 分开改） |
 | `assets/about.webp` | 关于页 4:3 形象图（可替换为照片/插画） |
@@ -77,7 +84,7 @@ npx serve .
 ├── js/hero-grid.js     # 首页动态淡网格（渐进增强，独立于 app.js）
 ├── tests/              # hero-grid 运动数学测试（node --test）
 ├── data/
-│   ├── config.json     # 站点配置
+│   ├── config.example.json  # 站点配置示例（复制为 config.json，后者不入库）
 │   └── repos.json      # 仓库链接列表
 ├── assets/
 │   ├── fonts/          # Manrope latin 600 WOFF2 + SIL OFL 1.1 许可证
