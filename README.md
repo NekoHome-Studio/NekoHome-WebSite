@@ -1,4 +1,4 @@
-# NekoHome 工作室 · 官方网站模板
+# NekoHome-WebSite
 
 纯前端单页应用（SPA），零构建、零依赖安装，开箱即用。
 
@@ -62,7 +62,7 @@ cp data/config.example.json data/config.json
 | `scroll.lerp` | 惯性系数（0~1，越小越"糯"，默认 0.1） |
 | `scroll.wheelMultiplier` | 滚轮速度倍率 |
 | `scroll.anchorDuration` | 导航锚点跳转动画时长（秒） |
-| `join.cards[]` | 加入页理由条目，每项仅 `title` + `text` 两个字段（旧的 `icon` 字段已随图标移除，不再使用） |
+| `join.cards[]` | 加入页理由条目，每项仅 `title` + `text` 两个字段 |
 
 > 注：`config.json` 中只保留当前生效的字段。首页大字的缩小 / 上移 / 渐隐参数写死在 `js/app.js`（`initParallax`），首页淡网格的间距与透明度写死在 `css/style.css`（`.hero::after`），动态网格的扰动半径 / 位移上限 / 弹簧参数等写死在 `js/hero-grid.js` 顶部常量，目前均不可通过配置调整；`hero.*` 仅控制主标题字号。
 
@@ -93,3 +93,15 @@ cp data/config.example.json data/config.json
     ├── bootstrap/      # Bootstrap 5.3.3 本地副本
     └── lenis/          # Lenis 惯性平滑滚动本地副本
 ```
+
+## 使用到的三方组件
+
+**[Lenis](https://github.com/darkroomengineering/lenis)**: MIT License
+
+**默认背景图片**: [原始出处](https://www.pixiv.net/artworks/72916889)。侵权请联系删除
+
+以上所列组件不包含在本仓库许可内
+
+## License
+
+[MIT License](LICENSE)
