@@ -98,6 +98,8 @@ cp data/config.example.json data/config.json
 
 **[Lenis](https://github.com/darkroomengineering/lenis)**: MIT License
 
+**Bootstrap**: MIT License
+
 **Manrope SemiBold**: [License](assets/fonts/OFL.txt)
 
 **默认背景图片**: [原始出处](https://www.pixiv.net/artworks/72916889)。侵权请联系删除
