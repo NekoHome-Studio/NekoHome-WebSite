@@ -67,6 +67,23 @@ async function loadConfig() {
   }
 }
 
+/* ---------- 顶栏 / 页脚名称（跟随 studioName / 自定义文字 / 图片） ----------
+   解析与 DOM 写入都在 js/brand-name.js（纯函数 + fake DOM 单测），这里只负责取配置。 */
+function applyNameConfig(cfg) {
+  const api = window.NekoBrandName;
+  $$("[data-name-cfg]").forEach(el => {
+    const raw = getPath(cfg, el.dataset.nameCfg);
+    if (!api) {
+      // brand-name.js 未加载时的降级：仅支持文字写法
+      if (typeof raw === "string" && raw.trim()) {
+        el.textContent = raw.split("{name}").join(cfg.studioName || "");
+      }
+      return;
+    }
+    api.render(el, api.resolve(raw, cfg.studioName), cfg.studioName);
+  });
+}
+
 function applyConfig(cfg) {
   if (!cfg) return;
   $$("[data-cfg]").forEach(el => {
@@ -81,6 +98,7 @@ function applyConfig(cfg) {
     const v = getPath(cfg, el.dataset.cfgTags);
     if (Array.isArray(v)) el.innerHTML = v.map(t => `<li>${esc(t)}</li>`).join("");
   });
+  applyNameConfig(cfg);
   if (cfg.studioName) document.title = cfg.studioName;
   if (cfg.qqGroup) {
     $("#qq-number").textContent = cfg.qqGroup;

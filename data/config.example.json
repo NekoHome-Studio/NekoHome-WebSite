@@ -1,5 +1,7 @@
 {
   "studioName": "NekoHome",
+  "brandName": { "image": "assets/logo-title.svg", "alt": "NekoHome"},
+  "footerName": { "image": "assets/logo-title.svg", "alt": "NekoHome"},
   "slogan": "把灵感，做成作品",
   "heroTags": "独立 · 开源 · 创造",
   "hero": {

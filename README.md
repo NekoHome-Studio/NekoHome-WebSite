@@ -9,7 +9,7 @@
 - **关于**：左侧简介文字（无卡片盒），右侧 4:3 配图；标签为轻量纯文字（间隔号分隔，非胶囊）
 - **作品**：读取 `data/repos.json` 中的 GitHub 仓库链接，前端自动调用 GitHub API 解析出仓库名、简介、Star / Fork 数，朴素的描边卡片 3 列排布，带骨架屏加载
 - **加入**：朴素的文字条目 + QQ 群区（无卡片托盘，群号一键复制，含降级方案；一键加群跳转链接）
-- **页脚**：Logo + 工作室名、4 个页面跳转、ICP 备案号
+- **页脚**：Logo + 可配置名称（文字 / 跟随工作室名 / 图片）、4 个页面跳转、ICP 备案号
 - **全局**：顶栏滑动指示器随当前页顺畅移动、各页面收敛的进场动画
 - **滚动**：Lenis 惯性平滑滚动，内容驱动、无整屏吸附；降级时回退原生平滑滚动
 - **主题**：暖白（墨色文字）/ 炭灰双主题，克制的蓝色点缀，深浅色切换（顶栏按钮），默认跟随系统，选择记忆在 localStorage
@@ -52,6 +52,7 @@ cp data/config.example.json data/config.json
 | 字段 | 说明 |
 | --- | --- |
 | `studioName` / `slogan` / `heroTags` | 工作室名、标语、首页眉标 |
+| `brandName` / `footerName` | 顶栏 / 页脚名称，三种写法：省略或 `"{name}"` 跟随 `studioName`；普通字符串为自定义文字（支持 `{name}` 占位符）；`{ "image": "assets/brand.svg", "alt": "NekoHome", "height": 32 }` 用图片替代文字（svg / webp / png / jpg / gif / avif，本地路径、远程 URL 或 data URI 均可；`alt` 默认取 `studioName`，`height` 单位 px，省略时跟随原字号；加载失败自动退回文字）。其中 **SVG 会 fetch 后内联 `<svg>` 注入**，因此可以继承页面主题变量（`--text` / `--accent`），跟随顶栏深浅主题切换；位图仍用 `<img>` |
 | `hero.titleMinPx` / `titleVw` / `titleMaxPx` | 首页主标题字号 clamp() 三段：最小值、随视口缩放比例、最大值 |
 | `copyright` | 版权文本模板，`{year}` 和 `{name}` 会自动替换为当前年份与工作室名 |
 | `qqGroup` / `qqJoinUrl` / `icp` | QQ 群号、加群链接、ICP 备案号 |
@@ -64,13 +65,15 @@ cp data/config.example.json data/config.json
 | `scroll.anchorDuration` | 导航锚点跳转动画时长（秒） |
 | `join.cards[]` | 加入页理由条目，每项仅 `title` + `text` 两个字段 |
 
+> SVG 名称的书写约定：内联后它属于页面 DOM，颜色请用页面变量（`.fg { fill: var(--text) }`、`.accent { fill: var(--accent) }`）或 `currentColor`，深色/浅色主题切换会自动生效；若在 `<img>` 里引用 SVG，CSS 变量进不去，只会使用兜底色。跨域 SVG 需要对方允许 CORS，否则自动退回文字。
+
 > 注：`config.json` 中只保留当前生效的字段。首页大字的缩小 / 上移 / 渐隐参数写死在 `js/app.js`（`initParallax`），首页淡网格的间距与透明度写死在 `css/style.css`（`.hero::after`），动态网格的扰动半径 / 位移上限 / 弹簧参数等写死在 `js/hero-grid.js` 顶部常量，目前均不可通过配置调整；`hero.*` 仅控制主标题字号。
 
 ## 技术说明
 
 - Bootstrap 5.3（本地 `vendor/`，仅使用网格与少量工具类）+ 原生 CSS/JS，无构建步骤
 - 深浅主题基于 `data-bs-theme` + CSS 变量切换
-- 首页动态网格（`js/hero-grid.js`）为渐进增强：画布仅精细指针可用时接管静态网格，DPR 上限 2，渲染循环仅在悬停 / 回弹期间运行；`node --test tests/hero-grid.test.cjs` 可跑其运动数学测试
+- 首页动态网格（`js/hero-grid.js`）为渐进增强：画布仅精细指针可用时接管静态网格，DPR 上限 2，渲染循环仅在悬停 / 回弹期间运行；`node --test tests/hero-grid.test.cjs` 可跑其运动数学测试；顶栏 / 页脚名称的解析逻辑在 `js/brand-name.js`（纯函数），`node --test tests/brand-name.test.cjs` 可跑其配置解析测试
 - GitHub API 未登录限额 60 次/小时/IP，超限后卡片会显示提示
 - 尊重 `prefers-reduced-motion`（降低动效偏好）
 
@@ -82,7 +85,8 @@ cp data/config.example.json data/config.json
 ├── css/style.css       # 全部样式（双主题变量 + Manrope @font-face）
 ├── js/app.js           # 全部逻辑
 ├── js/hero-grid.js     # 首页动态淡网格（渐进增强，独立于 app.js）
-├── tests/              # hero-grid 运动数学测试（node --test）
+├── js/brand-name.js    # 顶栏 / 页脚名称解析与渲染（文字 / 跟随 studioName / 位图 / SVG 内联，可测）
+├── tests/              # hero-grid 运动数学 + 名称解析 / 渲染测试（node --test）
 ├── data/
 │   ├── config.example.json  # 站点配置示例（复制为 config.json，后者不入库）
 │   └── repos.json      # 仓库链接列表

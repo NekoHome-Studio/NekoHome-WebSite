@@ -212,6 +212,21 @@ a:focus-visible, button:focus-visible {
 .brand-logo { height: 34px; width: auto; border-radius: 8px; }
 .brand-name { font-size: 17px; }
 
+/* 名称可配置为图片：位图用 <img>，SVG 内联 <svg>（可继承主题变量）；
+   高度跟随所在名称字号，config 里可用 height 覆盖 */
+.brand-name img,
+.footer-name img,
+.brand-name svg,
+.footer-name svg {
+  display: block;
+  height: 1.25em;
+  width: auto;
+  max-width: 100%;
+}
+
+.brand-name img,
+.footer-name img { object-fit: contain; }
+
 .topbar-right { display: flex; align-items: center; gap: 10px; }
 
 /* 深浅色切换按钮 */
