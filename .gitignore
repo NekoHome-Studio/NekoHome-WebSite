@@ -12,5 +12,6 @@ Desktop.ini
 *.log
 *.tmp
 
-# 站点配置（本地私有，部署时自行提供，参考 data/config.example.json）
+# 站点配置（本地私有，部署时自行提供）
 data/config.json
+data/repos.json
