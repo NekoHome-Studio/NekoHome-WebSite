@@ -18,10 +18,11 @@
 
 ## 本地运行
 
-由于页面通过 `fetch` 读取本地 JSON 配置，需要用本地服务器打开（不能直接双击 file://）。先准备好自己的配置（`data/config.json` 不入库）：
+由于页面通过 `fetch` 读取本地 JSON 配置，需要用本地服务器打开（不能直接双击 file://）。先准备好自己的配置：
 
 ```bash
 cp data/config.example.json data/config.json   # 填写自己的信息
+cp data/repos.example.json data/repos.json
 
 # 任选一种
 python -m http.server 8000
@@ -32,11 +33,8 @@ npx serve .
 
 ## 自定义配置
 
-主要文案、图片路径与站点参数都在独立的静态文件里，**改数据不用动代码**。站点配置 `data/config.json` 属于本地私有文件，已写入 `.gitignore` 不入库，克隆后从示例复制一份再填：
+主要文案、图片路径与站点参数都在独立的静态文件里，**改数据不用动代码**。站点配置 `data/config.json` 属于本地私有文件，已写入 `.gitignore` 不入库，克隆后从示例复制一份再填
 
-```bash
-cp data/config.example.json data/config.json
-```
 
 | 文件 | 内容 |
 | --- | --- |
